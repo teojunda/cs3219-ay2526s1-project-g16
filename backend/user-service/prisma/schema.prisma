@@ -12,6 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["auth"] // Only look at tables in the "auth" namespace
 }
 
 model User {
@@ -22,4 +23,6 @@ model User {
   isAdmin      Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@map("users") // maps to "auth.users"
 }
