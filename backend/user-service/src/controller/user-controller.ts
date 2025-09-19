@@ -92,6 +92,22 @@ export async function createUser(req: Request, res: Response): Promise<void> {
   }
 }
 
+export async function getUser(req: Request, res: Response): Promise<void> {
+  try {
+    const userId = req.params.id as string;
+    const existingUser = await _getUserById(userId);
+    if (!existingUser) {
+      res.status(404).json({ error: `User ${userId} not found` });
+      return;
+    }
+    res.status(200).json({ data: formatUserResponse(existingUser) });
+    return;
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+    return;
+  }
+}
+
 export function formatUserResponse(user: User) {
   return {
     id: user.id,
