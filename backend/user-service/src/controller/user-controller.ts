@@ -15,7 +15,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
   if (email && password) {
     try {
       // Check if user exists
-      const existingUser= await _getUserByEmail(email);
+      const existingUser = await _getUserByEmail(email);
       if (!existingUser) {
         res.status(401).json({ error: 'Invalid email address.' });
         return;
@@ -29,7 +29,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       }
 
       // generate access token
-      const payload = { id: existingUser.id }
+      const payload = { sub: existingUser.id };
       const secret = process.env.JWT_SECRET;
       if (!secret) {
         throw new Error('JWT_SECRET is not defined in the environment variables');
