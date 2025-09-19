@@ -15,10 +15,8 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
   if (email && password) {
     try {
       // Check if user exists
-      console.log(email);
       const existingUser= await _getUserByEmail(email);
       if (!existingUser) {
-        console.log(existingUser);
         res.status(401).json({ error: 'Invalid email address.' });
         return;
       }
