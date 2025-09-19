@@ -15,8 +15,10 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
   if (email && password) {
     try {
       // Check if user exists
-      const existingUser= await _getUserByUsername(email);
+      console.log(email);
+      const existingUser= await _getUserByEmail(email);
       if (!existingUser) {
+        console.log(existingUser);
         res.status(401).json({ error: 'Invalid email address.' });
         return;
       }
@@ -37,7 +39,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       const accessToken = jwt.sign(payload, secret, { expiresIn: "1d", });
       res.status(200).json({ data: { accessToken, ...formatUserResponse(existingUser) } });
       return;
-      
+
     } catch (error) {
       res.status(500).json({ error: 'Internal server error.' });
     }
